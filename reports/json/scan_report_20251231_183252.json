@@ -1,0 +1,200 @@
+{
+  "scan_info": {
+    "target": "https://fileshr.ddns.net/",
+    "timestamp": "2025-12-31T18:32:52.537980",
+    "total_vulnerabilities": 15
+  },
+  "severity_summary": {
+    "Critical": 0,
+    "High": 1,
+    "Medium": 8,
+    "Low": 3,
+    "Info": 3
+  },
+  "reconnaissance": {
+    "timestamp": "2025-12-31T18:32:14.140865",
+    "target": "https://fileshr.ddns.net/",
+    "dns_info": {
+      "a_records": [
+        "13.204.65.236"
+      ],
+      "mx_records": [],
+      "ns_records": []
+    },
+    "ip_info": {
+      "ip_address": "13.204.65.236",
+      "hostname": "fileshr.ddns.net"
+    },
+    "http_headers": {
+      "status_code": 200,
+      "headers": {
+        "Server": "nginx/1.26.3",
+        "Date": "Wed, 31 Dec 2025 13:02:15 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "48250",
+        "Connection": "keep-alive",
+        "Vary": "Cookie",
+        "Set-Cookie": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.aVUe1w.78UkQlgBmGZs7xGp3DEZzg1aXFE; Expires=Thu, 01 Jan 2026 13:02:15 GMT; HttpOnly; Path=/"
+      },
+      "redirects": 0
+    },
+    "tls_info": {
+      "tls_version": "TLSv1.3",
+      "cipher": [
+        "TLS_AES_256_GCM_SHA384",
+        "TLSv1.3",
+        256
+      ],
+      "certificate": {
+        "subject": {
+          "commonName": "fileshr.ddns.net"
+        },
+        "issuer": {
+          "countryName": "US",
+          "organizationName": "Let's Encrypt",
+          "commonName": "E7"
+        },
+        "version": 3,
+        "serial_number": "0569919C30FA290062F63445D207F223286A",
+        "not_before": "Dec  4 14:16:55 2025 GMT",
+        "not_after": "Mar  4 14:16:54 2026 GMT"
+      }
+    },
+    "tech_stack": {
+      "server": "nginx/1.26.3",
+      "frameworks": [],
+      "cms": null,
+      "programming_language": null
+    },
+    "robots_sitemap": {
+      "robots_txt": {
+        "exists": false
+      },
+      "sitemap_xml": {
+        "exists": false
+      }
+    }
+  },
+  "vulnerabilities": [
+    {
+      "title": "Potential SQL Injection Vulnerability",
+      "description": "Application returns database error messages when special characters are used.",
+      "severity": "High",
+      "severity_score": 8,
+      "remediation": "Use parameterized queries/prepared statements. Never concatenate user input into SQL queries.",
+      "category": "Injection"
+    },
+    {
+      "title": "Missing X-Frame-Options Header",
+      "description": "The X-Frame-Options header is not set, making the site vulnerable to clickjacking attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"X-Frame-Options: DENY\" or \"X-Frame-Options: SAMEORIGIN\" header to all responses.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Missing Content-Security-Policy Header",
+      "description": "No Content Security Policy detected. CSP helps prevent XSS and data injection attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement a Content-Security-Policy header with appropriate directives for your application.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Missing Strict-Transport-Security Header",
+      "description": "HSTS header not found. Site may be vulnerable to protocol downgrade attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"Strict-Transport-Security: max-age=31536000; includeSubDomains\" header.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Cookie Missing Secure Flag",
+      "description": "Cookies are set without the Secure flag, allowing transmission over unencrypted connections.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"Secure\" flag to all cookies: Set-Cookie: name=value; Secure",
+      "category": "Cookie Security"
+    },
+    {
+      "title": "Cookie Missing SameSite Attribute",
+      "description": "Cookies lack SameSite attribute, vulnerable to CSRF attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"SameSite=Strict\" or \"SameSite=Lax\" to cookies.",
+      "category": "Cookie Security"
+    },
+    {
+      "title": "Input Reflection Detected - SQL Injection Pattern",
+      "description": "User input \"'\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation"
+    },
+    {
+      "title": "Input Reflection Detected - XSS Pattern",
+      "description": "User input \"<script>\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation"
+    },
+    {
+      "title": "Sensitive Endpoints Discovered",
+      "description": "Found accessible sensitive paths: /admin/login (200), /dashboard (200)",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Restrict access to administrative interfaces. Remove development/debug files. Use .htaccess or firewall rules.",
+      "category": "Access Control"
+    },
+    {
+      "title": "Missing X-Content-Type-Options Header",
+      "description": "Missing header allows MIME-sniffing which could lead to security vulnerabilities.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"X-Content-Type-Options: nosniff\" header to all responses.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Missing Referrer-Policy Header",
+      "description": "No Referrer-Policy set. Sensitive information in URLs may leak to third parties.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"Referrer-Policy: strict-origin-when-cross-origin\" or stricter policy.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Server Version Disclosure",
+      "description": "Server header reveals version information: nginx/1.26.3",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Configure server to hide version information in Server header.",
+      "category": "Information Disclosure"
+    },
+    {
+      "title": "Missing Permissions-Policy Header",
+      "description": "No Permissions-Policy header found. Browser features not explicitly controlled.",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add Permissions-Policy header to control browser features like geolocation, camera, etc.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Missing X-XSS-Protection Header",
+      "description": "Legacy XSS protection header not set (still used by older browsers).",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add \"X-XSS-Protection: 1; mode=block\" header.",
+      "category": "Security Headers"
+    },
+    {
+      "title": "Certificate Expiration Check",
+      "description": "Certificate expires on: Mar  4 14:16:54 2026 GMT",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Monitor certificate expiration and renew before expiry.",
+      "category": "TLS/SSL"
+    }
+  ]
+}
