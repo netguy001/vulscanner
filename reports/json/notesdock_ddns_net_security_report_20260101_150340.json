@@ -1,0 +1,467 @@
+{
+  "scan_info": {
+    "target": "https://notesdock.ddns.net/",
+    "domain": "notesdock_ddns_net",
+    "timestamp": "2026-01-01T15:03:40.354510",
+    "scan_duration": "N/A",
+    "total_vulnerabilities": 25
+  },
+  "severity_summary": {
+    "Critical": 0,
+    "High": 8,
+    "Medium": 5,
+    "Low": 3,
+    "Info": 9
+  },
+  "vulnerabilities_by_category": {
+    "XSS": 1,
+    "Injection": 1,
+    "Authentication": 11,
+    "Security Headers": 7,
+    "Input Validation": 2,
+    "Information Disclosure": 1,
+    "TLS/SSL": 1,
+    "Access Control": 1
+  },
+  "attack_surface": {
+    "total_urls": 3,
+    "total_forms": 1,
+    "total_parameters": 6,
+    "total_endpoints": 3,
+    "javascript_files": 0,
+    "api_endpoints": 2
+  },
+  "reconnaissance": {
+    "timestamp": "2026-01-01T14:59:29.743957",
+    "target": "https://notesdock.ddns.net/",
+    "dns_info": {
+      "a_records": [
+        "13.233.120.123"
+      ],
+      "mx_records": [],
+      "ns_records": []
+    },
+    "ip_info": {
+      "ip_address": "13.233.120.123",
+      "hostname": "notesdock.ddns.net"
+    },
+    "http_headers": {
+      "status_code": 200,
+      "headers": {
+        "Server": "nginx/1.28.0",
+        "Date": "Thu, 01 Jan 2026 09:29:30 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "18961",
+        "Connection": "keep-alive"
+      },
+      "redirects": 0
+    },
+    "tls_info": {
+      "tls_version": "TLSv1.3",
+      "cipher": [
+        "TLS_AES_256_GCM_SHA384",
+        "TLSv1.3",
+        256
+      ],
+      "certificate": {
+        "subject": {
+          "commonName": "notesdock.ddns.net"
+        },
+        "issuer": {
+          "countryName": "US",
+          "organizationName": "Let's Encrypt",
+          "commonName": "E8"
+        },
+        "version": 3,
+        "serial_number": "051EEAA236BFA9F7206F80C3AA901691417A",
+        "not_before": "Dec  9 16:03:09 2025 GMT",
+        "not_after": "Mar  9 16:03:08 2026 GMT"
+      }
+    },
+    "tech_stack": {
+      "server": "nginx/1.28.0",
+      "frameworks": [],
+      "cms": null,
+      "programming_language": null
+    },
+    "robots_sitemap": {
+      "robots_txt": {
+        "exists": false
+      },
+      "sitemap_xml": {
+        "exists": false
+      }
+    }
+  },
+  "vulnerabilities": [
+    {
+      "title": "Cross-Site Scripting (XSS) Vulnerability",
+      "description": "Application reflects user input without proper encoding. Vulnerable contexts: Potential XSS. Example payload: <script>alert(1)</script>",
+      "severity": "High",
+      "severity_score": 8,
+      "remediation": "Implement context-aware output encoding. Use Content Security Policy (CSP). Sanitize user input. Use frameworks with auto-escaping.",
+      "category": "XSS",
+      "affected_url": [
+        "https://notesdock.ddns.net/?search=<script>alert(1)</script>",
+        "https://notesdock.ddns.net/?search=<script>alert(document.domain)</script>",
+        "https://notesdock.ddns.net/?search=<img src=x onerror=alert(1)>",
+        "https://notesdock.ddns.net/?search=<script>alert(document.cookie)</script>",
+        "https://notesdock.ddns.net/?search=<script>alert('XSS')</script>"
+      ],
+      "evidence": {
+        "payload": "<script>alert(1)</script>",
+        "request": "GET /?search=<script>alert(1)</script> HTTP/1.1\nHost: notesdock.ddns.net",
+        "response": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <!-- BASIC -->\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">\n\n    <title>Notes Dock - Select Your Course</title>\n\n    <!-- COMMON FOR ALL PAGES -->\n    <meta name=\"theme-color\" content=\"#0d6efd\">\n    <link rel=\"icon\" href=\"/static/assets/logo.png\">\n    <link rel=\"manifest\" href=\"/static/manifest.json\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/fon",
+        "matched_pattern": "XSS payload indicators found in response"
+      },
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-79"
+    },
+    {
+      "title": "Potential SQL Injection Vulnerability",
+      "description": "Application returns database error messages when special characters are used.",
+      "severity": "High",
+      "severity_score": 8,
+      "remediation": "Use parameterized queries/prepared statements. Never concatenate user input into SQL queries.",
+      "category": "Injection",
+      "affected_url": "https://notesdock.ddns.net/?test='",
+      "evidence": {
+        "payload": "'",
+        "request": "GET /?test=' HTTP/1.1\nHost: notesdock.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <!-- basic -->\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">\n\n    <title>notes dock - select your course</title>\n\n    <!-- common for all pages -->\n    <meta name=\"theme-color\" content=\"#0d6efd\">\n    <link rel=\"icon\" href=\"/static/assets/logo.png\">\n    <link rel=\"manifest\" href=\"/static/manifest.json\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/fon",
+        "matched_pattern": "SQL error keyword: 'database'"
+      },
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-89"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/2fa/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/2fa/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:59:48.528260",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/mfa/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/mfa/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:59:50.743074",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/verify-code",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/verify-code",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:59:52.848841",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/totp/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/totp/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:59:54.871980",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/authenticate/2fa",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/authenticate/2fa",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:59:56.898120",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing Authentication on Protected Resource",
+      "description": "Protected resource /admin is accessible without authentication.",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement proper authentication checks on all protected resources. Use middleware/decorators for consistent auth enforcement.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/admin",
+      "evidence": {
+        "protected_url": "https://notesdock.ddns.net/admin",
+        "accessible_without_auth": true,
+        "response_size": 18952
+      },
+      "timestamp": "2026-01-01T15:00:16.645071",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing X-Frame-Options Header",
+      "description": "The X-Frame-Options header is not set, making the site vulnerable to clickjacking attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"X-Frame-Options: DENY\" or \"X-Frame-Options: SAMEORIGIN\" header to all responses.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Content-Security-Policy Header",
+      "description": "No Content Security Policy detected. CSP helps prevent XSS and data injection attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement a Content-Security-Policy header with appropriate directives for your application.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Strict-Transport-Security Header",
+      "description": "HSTS header not found. Site may be vulnerable to protocol downgrade attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"Strict-Transport-Security: max-age=31536000; includeSubDomains\" header.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Input Reflection Detected - SQL Injection Pattern",
+      "description": "User input \"'\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation",
+      "affected_url": "https://notesdock.ddns.net/?test='",
+      "evidence": {
+        "payload": "'",
+        "request": "GET /?test=' HTTP/1.1\nHost: notesdock.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <!-- basic -->\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">\n\n    <title>notes dock - select your course</title>\n\n    <!-- common for all pages -->\n    <meta name=\"theme-color\" content=\"#0d6efd\">\n    <link rel=\"icon\" href=\"/static/assets/logo.png\">\n    <link rel=\"manifest\" href=\"/static/manifest.json\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/fon",
+        "matched_pattern": "Input reflected without encoding"
+      },
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-20"
+    },
+    {
+      "title": "Input Reflection Detected - XSS Pattern",
+      "description": "User input \"<script>\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation",
+      "affected_url": "https://notesdock.ddns.net/?test=<script>",
+      "evidence": {
+        "payload": "<script>",
+        "request": "GET /?test=<script> HTTP/1.1\nHost: notesdock.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <!-- basic -->\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">\n\n    <title>notes dock - select your course</title>\n\n    <!-- common for all pages -->\n    <meta name=\"theme-color\" content=\"#0d6efd\">\n    <link rel=\"icon\" href=\"/static/assets/logo.png\">\n    <link rel=\"manifest\" href=\"/static/manifest.json\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/fon",
+        "matched_pattern": "Input reflected without encoding"
+      },
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-20"
+    },
+    {
+      "title": "Missing X-Content-Type-Options Header",
+      "description": "Missing header allows MIME-sniffing which could lead to security vulnerabilities.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"X-Content-Type-Options: nosniff\" header to all responses.",
+      "category": "Security Headers",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Referrer-Policy Header",
+      "description": "No Referrer-Policy set. Sensitive information in URLs may leak to third parties.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"Referrer-Policy: strict-origin-when-cross-origin\" or stricter policy.",
+      "category": "Security Headers",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Server Version Disclosure",
+      "description": "Server header reveals version information: nginx/1.28.0",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Configure server to hide version information in Server header.",
+      "category": "Information Disclosure",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-200"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/2fa/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/2fa/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:59:48.707441",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/mfa/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/mfa/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:59:50.934450",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/verify-code",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/verify-code",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:59:53.017625",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/totp/verify",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/totp/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:59:55.060230",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://notesdock.ddns.net/authenticate/2fa",
+      "evidence": {
+        "endpoint": "https://notesdock.ddns.net/authenticate/2fa",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:59:57.077246",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing Permissions-Policy Header",
+      "description": "No Permissions-Policy header found. Browser features not explicitly controlled.",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add Permissions-Policy header to control browser features like geolocation, camera, etc.",
+      "category": "Security Headers",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing X-XSS-Protection Header",
+      "description": "Legacy XSS protection header not set (still used by older browsers).",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add \"X-XSS-Protection: 1; mode=block\" header.",
+      "category": "Security Headers",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Certificate Expiration Check",
+      "description": "Certificate expires on: Mar  9 16:03:08 2026 GMT",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Monitor certificate expiration and renew before expiry.",
+      "category": "TLS/SSL",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-326"
+    },
+    {
+      "title": "Sensitive Endpoints Discovered",
+      "description": "Found accessible sensitive paths: /admin (302)",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Restrict access to administrative interfaces. Remove development/debug files. Use .htaccess or firewall rules.",
+      "category": "Access Control",
+      "affected_url": [
+        "https://notesdock.ddns.net/admin"
+      ],
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-284"
+    }
+  ]
+}

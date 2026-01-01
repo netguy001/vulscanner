@@ -1,0 +1,695 @@
+{
+  "scan_info": {
+    "target": "https://fileshr.ddns.net/",
+    "domain": "fileshr_ddns_net",
+    "timestamp": "2026-01-01T14:50:32.420028",
+    "scan_duration": "N/A",
+    "total_vulnerabilities": 36
+  },
+  "severity_summary": {
+    "Critical": 8,
+    "High": 9,
+    "Medium": 8,
+    "Low": 3,
+    "Info": 8
+  },
+  "vulnerabilities_by_category": {
+    "Authentication": 19,
+    "Session Management": 1,
+    "XSS": 1,
+    "Injection": 1,
+    "Security Headers": 7,
+    "Cookie Security": 2,
+    "Input Validation": 2,
+    "Access Control": 1,
+    "Information Disclosure": 1,
+    "TLS/SSL": 1
+  },
+  "attack_surface": {
+    "total_urls": 88,
+    "total_forms": 4,
+    "total_parameters": 3,
+    "total_endpoints": 88,
+    "javascript_files": 1,
+    "api_endpoints": 0
+  },
+  "reconnaissance": {
+    "timestamp": "2026-01-01T14:45:56.420532",
+    "target": "https://fileshr.ddns.net/",
+    "dns_info": {
+      "a_records": [
+        "13.204.65.236"
+      ],
+      "mx_records": [],
+      "ns_records": []
+    },
+    "ip_info": {
+      "ip_address": "13.204.65.236",
+      "hostname": "fileshr.ddns.net"
+    },
+    "http_headers": {
+      "status_code": 200,
+      "headers": {
+        "Server": "nginx/1.26.3",
+        "Date": "Thu, 01 Jan 2026 09:15:57 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "48250",
+        "Connection": "keep-alive",
+        "Vary": "Cookie",
+        "Set-Cookie": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7TQ.LEO7aN3hAMXcdJh-OZS0urZ7-44; Expires=Fri, 02 Jan 2026 09:15:57 GMT; HttpOnly; Path=/"
+      },
+      "redirects": 0
+    },
+    "tls_info": {
+      "tls_version": "TLSv1.3",
+      "cipher": [
+        "TLS_AES_256_GCM_SHA384",
+        "TLSv1.3",
+        256
+      ],
+      "certificate": {
+        "subject": {
+          "commonName": "fileshr.ddns.net"
+        },
+        "issuer": {
+          "countryName": "US",
+          "organizationName": "Let's Encrypt",
+          "commonName": "E7"
+        },
+        "version": 3,
+        "serial_number": "0569919C30FA290062F63445D207F223286A",
+        "not_before": "Dec  4 14:16:55 2025 GMT",
+        "not_after": "Mar  4 14:16:54 2026 GMT"
+      }
+    },
+    "tech_stack": {
+      "server": "nginx/1.26.3",
+      "frameworks": [],
+      "cms": null,
+      "programming_language": null
+    },
+    "robots_sitemap": {
+      "robots_txt": {
+        "exists": false
+      },
+      "sitemap_xml": {
+        "exists": false
+      }
+    }
+  },
+  "vulnerabilities": [
+    {
+      "title": "JWT Algorithm Confusion Vulnerability",
+      "description": "Server accepts JWT tokens with 'none' algorithm, allowing signature bypass.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Strictly validate JWT algorithm. Reject 'none' algorithm tokens.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/",
+      "evidence": {
+        "original_token": "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7bw.1ZwqBkVomvgz6qzv...",
+        "original_algorithm": null,
+        "modified_token": "eyJfcGVybWFuZW50IjogdHJ1ZSwgImFsZyI6ICJub25lIn0.bn...",
+        "modified_algorithm": "none",
+        "test_result": "Server accepted token with 'none' algorithm",
+        "response_status": 200,
+        "original_header": "{\n  \"_permanent\": true\n}",
+        "modified_header": "{\n  \"_permanent\": true,\n  \"alg\": \"none\"\n}"
+      },
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Authentication Bypass via SQL Injection",
+      "description": "Login form at /admin/login vulnerable to SQL injection authentication bypass.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Use parameterized queries. Implement proper input validation. Use prepared statements.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "/admin/login",
+        "full_url": "https://fileshr.ddns.net/admin/login",
+        "payload_username": "admin' OR '1'='1",
+        "payload_password": "admin' OR '1'='1",
+        "response_status": 200,
+        "response_headers": {
+          "Server": "nginx/1.26.3",
+          "Date": "Thu, 01 Jan 2026 09:16:34 GMT",
+          "Content-Type": "text/html; charset=utf-8",
+          "Content-Length": "18335",
+          "Connection": "keep-alive",
+          "Vary": "Cookie",
+          "Set-Cookie": "session=eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7cg.jiM9lW_Kgh5VKJXJlyLUthr0cSQ; Expires=Fri, 02 Jan 2026 09:16:34 GMT; HttpOnly; Path=/"
+        },
+        "response_preview": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Admin Login - FileShr</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">\n   ",
+        "cookies_received": {
+          "session": "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7cg.jiM9lW_Kgh5VKJXJlyLUthr0cSQ"
+        },
+        "bypass_successful": true
+      },
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "SQL Injection Authentication Bypass",
+      "description": "Login form at https://fileshr.ddns.net/admin/login is vulnerable to SQL injection authentication bypass. Attacker can gain unauthorized access without valid credentials.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Use parameterized queries/prepared statements. Never concatenate user input into SQL queries. Implement proper input validation and use ORM frameworks.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "method": "POST",
+        "username_payload": "admin' OR '1'='1'--",
+        "password_payload": "anything",
+        "response_status": 200,
+        "cookies_received": {
+          "session": "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7dQ.x6JHY3ozQntYS3FSBee55-P4tLU"
+        },
+        "bypass_confirmed": true,
+        "request": "POST https://fileshr.ddns.net/admin/login\n\nusername=admin%27+OR+%271%27%3D%271%27--&password=anything"
+      },
+      "timestamp": "2026-01-01T14:46:37.505745",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Predictable Session Tokens",
+      "description": "Session tokens follow a predictable sequential or incremental pattern. Attacker can predict valid session IDs and hijack user sessions.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Use cryptographically secure random number generator (CSPRNG) for session token generation. Ensure minimum 128 bits of entropy.",
+      "category": "Session Management",
+      "affected_url": "https://fileshr.ddns.net/",
+      "evidence": {
+        "sample_sessions": [
+          "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7dw.O-ksQ361cY8skbt2AgzATx5A4kA",
+          "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7eA.xuaYGwkjkMan7KRbb2VEFfVEd5I",
+          "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7eQ.0Z5vBYB9FL4LMBGWHYL3bepzZV4",
+          "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7eg.NaD63E0kN-2MlNyOWIJ6H0Pxicc",
+          "eyJfcGVybWFuZW50Ijp0cnVlfQ.aVY7eg.NaD63E0kN-2MlNyOWIJ6H0Pxicc"
+        ],
+        "pattern": "Sequential/Incremental",
+        "vulnerability": "Session tokens follow predictable pattern"
+      },
+      "timestamp": "2026-01-01T14:46:43.656327",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-384"
+    },
+    {
+      "title": "Default/Weak Credentials",
+      "description": "Application accepts default credentials: admin/admin. Attacker can gain unauthorized access.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Force password change on first login. Implement strong password policy. Disable default accounts.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "username": "admin",
+        "password": "admin",
+        "login_successful": true
+      },
+      "timestamp": "2026-01-01T14:46:59.329514",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "NoSQL Injection Authentication Bypass",
+      "description": "Login endpoint is vulnerable to NoSQL injection, allowing authentication bypass without valid credentials.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Sanitize and validate all inputs. Use parameterized queries. Implement input type checking. Use ORM/ODM libraries.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "payload": {
+          "username": {
+            "$ne": null
+          },
+          "password": {
+            "$ne": null
+          }
+        },
+        "bypass_successful": true,
+        "vulnerability_type": "NoSQL Injection Authentication Bypass"
+      },
+      "timestamp": "2026-01-01T14:47:00.941988",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "LDAP Injection Authentication Bypass",
+      "description": "LDAP-based authentication is vulnerable to injection, allowing bypass without valid credentials.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Escape LDAP special characters. Use parameterized LDAP queries. Validate inputs against whitelist.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "username_payload": "admin)(&",
+        "password_payload": "password",
+        "bypass_successful": true
+      },
+      "timestamp": "2026-01-01T14:47:02.559441",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "XML/XPath Injection Authentication Bypass",
+      "description": "XML-based authentication is vulnerable to injection attacks.",
+      "severity": "Critical",
+      "severity_score": 10,
+      "remediation": "Use parameterized XPath queries. Validate and sanitize XML inputs. Use XML schema validation.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "xml_payload": "<?xml version=\"1.0\"?>\n<auth>\n    <username>admin' or '1'='1</username>\n    <password>anything</password>\n</auth>",
+        "bypass_successful": true
+      },
+      "timestamp": "2026-01-01T14:47:04.157319",
+      "cvss_score": 9.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Cross-Site Scripting (XSS) Vulnerability",
+      "description": "Application reflects user input without proper encoding. Vulnerable contexts: Potential XSS. Example payload: <script>alert(1)</script>",
+      "severity": "High",
+      "severity_score": 8,
+      "remediation": "Implement context-aware output encoding. Use Content Security Policy (CSP). Sanitize user input. Use frameworks with auto-escaping.",
+      "category": "XSS",
+      "affected_url": [
+        "https://fileshr.ddns.net/?search=<script>alert('XSS')</script>",
+        "https://fileshr.ddns.net/?search=<script>alert(document.domain)</script>",
+        "https://fileshr.ddns.net/?search=<script>alert(1)</script>",
+        "https://fileshr.ddns.net/?search=<script>alert(document.cookie)</script>",
+        "https://fileshr.ddns.net/?search=<img src=x onerror=alert(1)>"
+      ],
+      "evidence": {
+        "payload": "<script>alert(1)</script>",
+        "request": "GET /?search=<script>alert(1)</script> HTTP/1.1\nHost: fileshr.ddns.net",
+        "response": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"description\"\n        content=\"FileShr - Secure file sharing platform with end-to-end encryption. Share files safely with automatic deletion and zero tracking.\">\n    <title>FileShr - Secure File Sharing Platform</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script>\n        tailwind.config = {\n            theme: {\n    ",
+        "matched_pattern": "XSS payload indicators found in response"
+      },
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-79"
+    },
+    {
+      "title": "Potential SQL Injection Vulnerability",
+      "description": "Application returns database error messages when special characters are used.",
+      "severity": "High",
+      "severity_score": 8,
+      "remediation": "Use parameterized queries/prepared statements. Never concatenate user input into SQL queries.",
+      "category": "Injection",
+      "affected_url": "https://fileshr.ddns.net/?test='",
+      "evidence": {
+        "payload": "'",
+        "request": "GET /?test=' HTTP/1.1\nHost: fileshr.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"description\"\n        content=\"fileshr - secure file sharing platform with end-to-end encryption. share files safely with automatic deletion and zero tracking.\">\n    <title>fileshr - secure file sharing platform</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script>\n        tailwind.config = {\n            theme: {\n    ",
+        "matched_pattern": "SQL error keyword: 'query'"
+      },
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-89"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/2fa/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/2fa/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:46:45.556261",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/mfa/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/mfa/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:46:47.622584",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/verify-code",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/verify-code",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:46:49.648610",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/totp/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/totp/verify",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:46:51.706197",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Brute Force - No Rate Limiting",
+      "description": "2FA verification endpoint lacks rate limiting, allowing attackers to brute force 6-digit codes (1 million possibilities).",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement strict rate limiting (3-5 attempts). Add account lockout. Implement CAPTCHA after failed attempts. Use longer codes or time-based expiry.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/authenticate/2fa",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/authenticate/2fa",
+        "attempts_made": 10,
+        "rate_limiting": "Not detected",
+        "vulnerability": "2FA codes can be brute forced"
+      },
+      "timestamp": "2026-01-01T14:46:53.852570",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Rate Limit Bypass via Header Manipulation",
+      "description": "Rate limiting can be bypassed by manipulating X-Forwarded-For header, allowing unlimited authentication attempts.",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement rate limiting at application level, not just by IP. Use session-based or account-based rate limiting. Validate and sanitize proxy headers.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/admin/login",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/admin/login",
+        "bypass_header": "X-Forwarded-For",
+        "successful_requests": 10,
+        "total_attempts": 10,
+        "vulnerability": "Rate limiting bypassed via header manipulation"
+      },
+      "timestamp": "2026-01-01T14:46:57.675123",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing Authentication on Protected Resource",
+      "description": "Protected resource /dashboard is accessible without authentication.",
+      "severity": "High",
+      "severity_score": 7,
+      "remediation": "Implement proper authentication checks on all protected resources. Use middleware/decorators for consistent auth enforcement.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/dashboard",
+      "evidence": {
+        "protected_url": "https://fileshr.ddns.net/dashboard",
+        "accessible_without_auth": true,
+        "response_size": 306837
+      },
+      "timestamp": "2026-01-01T14:47:07.376017",
+      "cvss_score": 7.5,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing X-Frame-Options Header",
+      "description": "The X-Frame-Options header is not set, making the site vulnerable to clickjacking attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"X-Frame-Options: DENY\" or \"X-Frame-Options: SAMEORIGIN\" header to all responses.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Content-Security-Policy Header",
+      "description": "No Content Security Policy detected. CSP helps prevent XSS and data injection attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement a Content-Security-Policy header with appropriate directives for your application.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Strict-Transport-Security Header",
+      "description": "HSTS header not found. Site may be vulnerable to protocol downgrade attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"Strict-Transport-Security: max-age=31536000; includeSubDomains\" header.",
+      "category": "Security Headers",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Cookie Missing Secure Flag",
+      "description": "Cookies are set without the Secure flag, allowing transmission over unencrypted connections.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"Secure\" flag to all cookies: Set-Cookie: name=value; Secure",
+      "category": "Cookie Security",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-614"
+    },
+    {
+      "title": "Cookie Missing SameSite Attribute",
+      "description": "Cookies lack SameSite attribute, vulnerable to CSRF attacks.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Add \"SameSite=Strict\" or \"SameSite=Lax\" to cookies.",
+      "category": "Cookie Security",
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-614"
+    },
+    {
+      "title": "Input Reflection Detected - SQL Injection Pattern",
+      "description": "User input \"'\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation",
+      "affected_url": "https://fileshr.ddns.net/?test='",
+      "evidence": {
+        "payload": "'",
+        "request": "GET /?test=' HTTP/1.1\nHost: fileshr.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"description\"\n        content=\"fileshr - secure file sharing platform with end-to-end encryption. share files safely with automatic deletion and zero tracking.\">\n    <title>fileshr - secure file sharing platform</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script>\n        tailwind.config = {\n            theme: {\n    ",
+        "matched_pattern": "Input reflected without encoding"
+      },
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-20"
+    },
+    {
+      "title": "Input Reflection Detected - XSS Pattern",
+      "description": "User input \"<script>\" is reflected in the response without proper encoding.",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Implement proper input validation and output encoding. Use context-aware escaping.",
+      "category": "Input Validation",
+      "affected_url": "https://fileshr.ddns.net/?test=<script>",
+      "evidence": {
+        "payload": "<script>",
+        "request": "GET /?test=<script> HTTP/1.1\nHost: fileshr.ddns.net",
+        "response": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"description\"\n        content=\"fileshr - secure file sharing platform with end-to-end encryption. share files safely with automatic deletion and zero tracking.\">\n    <title>fileshr - secure file sharing platform</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script>\n        tailwind.config = {\n            theme: {\n    ",
+        "matched_pattern": "Input reflected without encoding"
+      },
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-20"
+    },
+    {
+      "title": "Sensitive Endpoints Discovered",
+      "description": "Found accessible sensitive paths: /admin/login (200), /dashboard (200)",
+      "severity": "Medium",
+      "severity_score": 5,
+      "remediation": "Restrict access to administrative interfaces. Remove development/debug files. Use .htaccess or firewall rules.",
+      "category": "Access Control",
+      "affected_url": [
+        "https://fileshr.ddns.net/admin/login",
+        "https://fileshr.ddns.net/dashboard"
+      ],
+      "evidence": {
+        "payload": "N/A",
+        "request": "GET /admin/login HTTP/1.1\nHost: fileshr.ddns.net",
+        "response": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Admin Login - FileShr</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">\n   ",
+        "matched_pattern": "Sensitive endpoint accessible with status 200"
+      },
+      "cvss_score": 5.0,
+      "cwe_id": "CWE-284"
+    },
+    {
+      "title": "Missing X-Content-Type-Options Header",
+      "description": "Missing header allows MIME-sniffing which could lead to security vulnerabilities.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"X-Content-Type-Options: nosniff\" header to all responses.",
+      "category": "Security Headers",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing Referrer-Policy Header",
+      "description": "No Referrer-Policy set. Sensitive information in URLs may leak to third parties.",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Add \"Referrer-Policy: strict-origin-when-cross-origin\" or stricter policy.",
+      "category": "Security Headers",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Server Version Disclosure",
+      "description": "Server header reveals version information: nginx/1.26.3",
+      "severity": "Low",
+      "severity_score": 2,
+      "remediation": "Configure server to hide version information in Server header.",
+      "category": "Information Disclosure",
+      "cvss_score": 3.0,
+      "cwe_id": "CWE-200"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/2fa/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/2fa/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:46:45.778038",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/mfa/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/mfa/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:46:47.801665",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/verify-code",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/verify-code",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:46:49.852033",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/totp/verify",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/totp/verify",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:46:51.894804",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "2FA Code Reuse Risk Assessment",
+      "description": "2FA implementation should be manually verified to ensure codes are single-use and expire within 30-60 seconds.",
+      "severity": "Info",
+      "severity_score": 1,
+      "remediation": "Implement single-use TOTP codes. Add 30-second expiration. Invalidate code after successful use.",
+      "category": "Authentication",
+      "affected_url": "https://fileshr.ddns.net/authenticate/2fa",
+      "evidence": {
+        "endpoint": "https://fileshr.ddns.net/authenticate/2fa",
+        "test_type": "Code Reuse Check",
+        "recommendation": "Verify that 2FA codes are single-use and expire quickly"
+      },
+      "timestamp": "2026-01-01T14:46:54.037536",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-287"
+    },
+    {
+      "title": "Missing Permissions-Policy Header",
+      "description": "No Permissions-Policy header found. Browser features not explicitly controlled.",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add Permissions-Policy header to control browser features like geolocation, camera, etc.",
+      "category": "Security Headers",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Missing X-XSS-Protection Header",
+      "description": "Legacy XSS protection header not set (still used by older browsers).",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Add \"X-XSS-Protection: 1; mode=block\" header.",
+      "category": "Security Headers",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-693"
+    },
+    {
+      "title": "Certificate Expiration Check",
+      "description": "Certificate expires on: Mar  4 14:16:54 2026 GMT",
+      "severity": "Info",
+      "severity_score": 0,
+      "remediation": "Monitor certificate expiration and renew before expiry.",
+      "category": "TLS/SSL",
+      "cvss_score": 0.0,
+      "cwe_id": "CWE-326"
+    }
+  ]
+}

